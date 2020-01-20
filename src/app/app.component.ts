@@ -1,27 +1,26 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { MessageService } from './message.service';
-import { takeUntil } from 'rxjs-compat/operator/takeUntil';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'websocket-front';
   form: FormGroup = new FormGroup({
     message: new FormControl('', Validators.required),
     result: new FormControl('')
   });
-  destroy$ = new Subject();
+  subscription: Subscription = null;
 
   constructor(private messageService: MessageService){ }
-
+ 
   ngOnInit() {
-    this.messageService.messages.pipe(takeUntil(this.destroy$)).subscribe(msg => {
+    this.subscription = this.messageService.messages.subscribe(msg => {
       this.form.patchValue({
         result: msg.text
       });
@@ -33,7 +32,9 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }
