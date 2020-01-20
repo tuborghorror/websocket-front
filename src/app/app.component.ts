@@ -15,10 +15,10 @@ export class AppComponent {
     result: new FormControl('')
   });
 
-  constructor(private chat: MessageService){ }
+  constructor(private messageService: MessageService){ }
 
   ngOnInit() {
-    this.chat.messages.subscribe(msg => {
+    this.messageService.messages.subscribe(msg => {
       this.form.patchValue({
         result: msg.text
       });
@@ -26,6 +26,6 @@ export class AppComponent {
   }
 
   onSubmit(): void {
-    this.chat.sendMsg(this.form.get('message').value);
+    this.messageService.sendMsg(this.form.get('message').value);
   }
 }
