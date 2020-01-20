@@ -1,5 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { MessageService } from './message.service';
+import { WebsocketService } from './websocket.service';
 
 import { AppComponent } from './app.component';
 
@@ -8,9 +12,13 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    MessageService,
+    WebsocketService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
