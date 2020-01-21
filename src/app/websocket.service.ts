@@ -3,7 +3,7 @@ import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import * as Rx from 'rxjs/Rx';
 
-import  { environment } from '../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
