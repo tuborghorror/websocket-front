@@ -1,16 +1,16 @@
 <div class="container">
   <h1> Websocket application </h1>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label class="form-group--label" for="message">Text message: </label>
-      <input id="message" type="text" class="form-group--input" formControlName="message">
+    <div class="form-group pt-3">
+      <label for="message">Text message: </label>
+      <input id="message" class="form-control" type="text" formControlName="message">
     </div>
 
-    <button type="submit" class="btn btn-submit" [disabled]="form.invalid">Send</button>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Send</button>
 
-    <div class="form-group">
-      <label class="form-group--label" for="result">Processed message: </label>
-      <input id="message" type="text" class="form-group--input" readonly formControlName="result">
+    <div class="form-group pt-3">
+      <label class="form-group" for="result">Processed message: </label>
+      <input id="result" class="form-control" readonly formControlName="result">
     </div>
   </form>
 </div>

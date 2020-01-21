@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Rx';
+
 import { WebsocketService } from './websocket.service';
-import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class MessageService {
@@ -15,7 +16,7 @@ export class MessageService {
       });
    }
 
-  sendMsg(msg) {
+  sendMsg(msg: string) {
     this.messages.next(msg);
   }
 

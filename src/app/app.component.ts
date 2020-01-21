@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { MessageService } from './message.service';
-import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +17,10 @@ export class AppComponent implements OnInit, OnDestroy {
   });
   subscription: Subscription = null;
 
-  constructor(private messageService: MessageService){ }
+  constructor(private messagesSubscription: MessageService){ }
  
   ngOnInit() {
-    this.subscription = this.messageService.messages.subscribe(msg => {
+    this.subscription = this.messagesSubscription.messages.subscribe(msg => {
       this.form.patchValue({
         result: msg.text
       });
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    this.messageService.sendMsg(this.form.get('message').value);
+    this.messagesSubscription.sendMsg(this.form.get('message').value);
   }
 
   ngOnDestroy(): void {
