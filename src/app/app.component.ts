@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { MessageService } from './message.service';
 
@@ -8,17 +9,18 @@ import { MessageService } from './message.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'websocket-front';
   form: FormGroup = new FormGroup({
     message: new FormControl('', Validators.required),
     result: new FormControl('')
   });
+  subscription: Subscription = null;
 
-  constructor(private messageService: MessageService){ }
-
+  constructor(private messagesSubscription: MessageService){ }
+ 
   ngOnInit() {
-    this.messageService.messages.subscribe(msg => {
+    this.subscription = this.messagesSubscription.messages.subscribe(msg => {
       this.form.patchValue({
         result: msg.text
       });
@@ -26,6 +28,13 @@ export class AppComponent {
   }
 
   onSubmit(): void {
-    this.messageService.sendMsg(this.form.get('message').value);
+    this.messagesSubscription.sendMsg(this.form.get('message').value);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
   }
 }

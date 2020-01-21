@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Rx';
+
 import { WebsocketService } from './websocket.service';
-import { Observable, Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class MessageService {
 
   messages: Subject<any>;
 
-  // Our constructor calls our wsService connect method
   constructor(private wsService: WebsocketService) {
     this.messages = <Subject<any>>wsService
       .connect()
@@ -16,9 +16,7 @@ export class MessageService {
       });
    }
 
-  // Our simplified interface for sending
-  // messages back to our socket.io server
-  sendMsg(msg) {
+  sendMsg(msg: string) {
     this.messages.next(msg);
   }
 
